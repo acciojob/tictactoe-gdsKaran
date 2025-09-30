@@ -11,8 +11,8 @@ const messageDiv = document.querySelector(".message");
 const cells = document.querySelectorAll(".cell");
 
 submitBtn.addEventListener("click", () => {
-  player1 = document.getElementById("player-1").value.trim() || "Player 1";
-  player2 = document.getElementById("player-2").value.trim() || "Player 2";
+  player1 = document.getElementById("player1").value.trim() || "Player 1";
+  player2 = document.getElementById("player2").value.trim() || "Player 2";
 
   formDiv.style.display = "none";
   boardDiv.style.display = "block";
