@@ -1,4 +1,4 @@
-let currentPlayer = "x"; // lowercase
+let currentPlayer = "x"; // lowercase for Cypress
 let player1 = "";
 let player2 = "";
 let gameActive = true;
@@ -9,6 +9,7 @@ const boardDiv = document.querySelector(".game-board");
 const messageDiv = document.querySelector(".message");
 const cells = document.querySelectorAll(".cell");
 
+// Start game after entering names
 submitBtn.addEventListener("click", () => {
   player1 = document.getElementById("player1").value.trim() || "Player1";
   player2 = document.getElementById("player2").value.trim() || "Player2";
@@ -18,17 +19,18 @@ submitBtn.addEventListener("click", () => {
   messageDiv.textContent = `${player1}, you're up`;
 });
 
+// Handle cell clicks
 cells.forEach(cell => {
   cell.addEventListener("click", () => {
     if (!gameActive || cell.textContent !== "") return;
 
-    // Place symbol
+    // Place current player's symbol
     cell.textContent = currentPlayer;
 
-    // Check win with current symbol
+    // Check if current player wins
     if (checkWin(currentPlayer)) {
-      let winner = currentPlayer === "x" ? player1 : player2;
-      messageDiv.textContent = `${winner}, congratulations you won!`;
+      const winner = currentPlayer === "x" ? player1 : player2;
+      messageDiv.textContent = `${winner} congratulations you won!`;
       gameActive = false;
       return;
     }
@@ -40,19 +42,19 @@ cells.forEach(cell => {
       return;
     }
 
-    // Switch turn
+    // Switch player for next turn
     currentPlayer = currentPlayer === "x" ? "o" : "x";
-    let nextPlayer = currentPlayer === "x" ? player1 : player2;
+    const nextPlayer = currentPlayer === "x" ? player1 : player2;
     messageDiv.textContent = `${nextPlayer}, you're up`;
   });
 });
 
-// Pass player symbol to checkWin
+// Check winning combinations for a symbol
 function checkWin(symbol) {
   const winCombos = [
-    [1,2,3],[4,5,6],[7,8,9],
-    [1,4,7],[2,5,8],[3,6,9],
-    [1,5,9],[3,5,7]
+    [1,2,3],[4,5,6],[7,8,9], // rows
+    [1,4,7],[2,5,8],[3,6,9], // columns
+    [1,5,9],[3,5,7]          // diagonals
   ];
 
   return winCombos.some(combo => {
@@ -65,6 +67,7 @@ function checkWin(symbol) {
   });
 }
 
+// Check if all cells are filled
 function isDraw() {
   return [...cells].every(cell => cell.textContent !== "");
 }
